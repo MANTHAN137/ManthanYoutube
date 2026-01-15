@@ -603,6 +603,14 @@ section {
     letter-spacing: 2px;
 }
 
+/* Performance: Skip rendering off-screen content */
+.embedded-games-section,
+.games-arcade-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+    /* Estimate height to prevent scrollbar jumping */
+}
+
 /* Game Cards Grid */
 .games-grid {
     display: grid;

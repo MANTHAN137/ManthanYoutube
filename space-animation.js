@@ -197,12 +197,20 @@
     // Start animation
     animate();
 
-    // Pause when not visible
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            cancelAnimationFrame(animationId);
-        } else {
-            animate();
-        }
-    });
+    // PERFORMANCE: Use Intersection Observer to pause when off-screen
+    // This saves massive CPU/GPU when scrolling down to videos/games
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (!animationId) animate();
+            } else {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+            }
+        });
+    }, { threshold: 0 });
+
+    observer.observe(canvas);
 })();

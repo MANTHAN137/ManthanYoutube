@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         video.muted = true; // Required for autoplay
         video.loop = true;
         video.playsInline = true;
+        video.preload = 'auto'; // Preload for smoother playback
         video.style.objectFit = 'cover';
         video.style.position = 'absolute';
         video.style.top = '0';
@@ -81,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         video.style.width = '100%';
         video.style.height = '100%';
         video.style.opacity = '0';
+        video.style.willChange = 'opacity'; // Hint to browser for GPU acceleration
         video.style.transition = 'opacity 1s ease-in-out';
         return video;
     }
