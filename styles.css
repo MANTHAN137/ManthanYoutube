@@ -1319,9 +1319,39 @@ section {
 }
 
 /* Responsive */
+/* Responsive */
 @media (max-width: 768px) {
+    .nav-content {
+        padding: 0 1rem;
+        /* Reduce padding for more space */
+    }
+
     .nav-links {
         display: none;
+    }
+
+    /* Mobile Logo Adjustments */
+    .logo {
+        gap: 8px;
+    }
+
+    .channel-logo-img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .logo-text {
+        font-size: 1.2rem;
+        /* Smaller text */
+        letter-spacing: 1px;
+    }
+
+    /* Mobile Subscribe Button */
+    .subscribe-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        margin-right: 0.5rem;
+        /* Space from menu icon */
     }
 
     .mobile-menu-btn {
@@ -1329,11 +1359,21 @@ section {
     }
 
     .hero-title {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        /* Adjusted for mobile */
     }
 
     .hero-description {
         font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+
+    /* Very small screens: Hide logo text to fit Subscribe button */
+    .logo-text {
+        display: none;
     }
 }
 
