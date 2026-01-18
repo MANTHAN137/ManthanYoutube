@@ -1,0 +1,353 @@
+.home-page {
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.hero-video-montage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: linear-gradient(135deg, #0a0a12 0%, #1a0a20 50%, #0a0a12 100%);
+    overflow: hidden;
+}
+
+.montage-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(10, 10, 18, 0.7) 0%, rgba(10, 10, 18, 0.4) 50%, #0a0a12 100%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.infinity-stones .stone {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px currentColor;
+    animation: float 5s infinite ease-in-out;
+}
+
+.stone-power {
+    color: #a020f0;
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.stone-space {
+    color: #0000ff;
+    top: 30%;
+    right: 25%;
+    animation-delay: 1s;
+}
+
+.stone-reality {
+    color: #ff0000;
+    bottom: 30%;
+    left: 30%;
+    animation-delay: 2s;
+}
+
+.stone-soul {
+    color: #ff8c00;
+    top: 15%;
+    right: 15%;
+    animation-delay: 3s;
+}
+
+.stone-time {
+    color: #00ff00;
+    bottom: 20%;
+    right: 35%;
+    animation-delay: 4s;
+}
+
+.stone-mind {
+    color: #ffff00;
+    top: 40%;
+    left: 10%;
+    animation-delay: 1.5s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.hero-content {
+    z-index: 10;
+    max-width: 800px;
+    padding: 0 2rem;
+    position: relative;
+}
+
+.hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    line-height: 0.9;
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.title-line,
+.title-sub {
+    display: block;
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+.title-main {
+    background: linear-gradient(90deg, #ff0844, #4776e6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    margin: 2rem 0;
+    color: #b3b3b3;
+    line-height: 1.6;
+}
+
+.highlight-stocks {
+    color: #00d4ff;
+}
+
+.highlight-music {
+    color: #9d4edd;
+}
+
+.highlight-vlogs {
+    color: #ff0844;
+}
+
+.hero-cta {
+    margin-top: 2rem;
+}
+
+.cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, #ff0844, #9d4edd);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+    transition: transform 0.3s;
+}
+
+.cta-primary:hover {
+    transform: scale(1.05);
+}
+
+.cta-icon {
+    font-size: 1rem;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    animation: bounce 2s infinite;
+}
+
+.scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.floating-elements div {
+    position: absolute;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+/* Videos Section */
+.videos-section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    color: #fff;
+    margin: 0;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #00d4ff, #9d4edd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.title-underline {
+    width: 100px;
+    height: 4px;
+    background: #ff0844;
+    margin: 1rem auto;
+    border-radius: 2px;
+}
+
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.view-all-container {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 2rem;
+    background: transparent;
+    border: 2px solid #00d4ff;
+    color: #00d4ff;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+    background: #00d4ff;
+    color: #0a0a12;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+}
+
+.btn-arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+}
+
+.view-all-btn:hover .btn-arrow {
+    transform: translateX(5px);
+}
+
+/* Particle Background */
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(10, 10, 18, 0.8) 0%, rgba(10, 10, 18, 0.6) 50%, rgba(10, 10, 18, 0.9) 100%);
+}
+
+.lightning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.1);
+    mix-blend-mode: overlay;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .title-line,
+    .title-sub {
+        font-size: 1.5rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+}

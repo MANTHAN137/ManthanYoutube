@@ -1,0 +1,206 @@
+.short-panel-card {
+    flex-shrink: 0;
+    width: 180px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.short-panel-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 40px rgba(255, 0, 0, 0.2);
+    border-color: rgba(255, 0, 0, 0.3);
+}
+
+.short-panel-thumb {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.short-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+.shorts-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shorts-badge-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.short-panel-info {
+    padding: 0.8rem;
+}
+
+.short-panel-info h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 0.4rem 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.short-views {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    color: #888;
+}
+
+/* Shorts Grid for dedicated page */
+.shorts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+}
+
+.shorts-grid .short-panel-card {
+    width: 100%;
+}
+
+/* Skeleton loading */
+.short-panel-card.skeleton .short-panel-thumb {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .short-panel-card {
+        width: 150px;
+    }
+
+    .short-panel-thumb {
+        height: 240px;
+    }
+}
+
+/* Short Play Overlay */
+.short-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.short-panel-card:hover .short-play-overlay {
+    opacity: 1;
+}
+
+.short-play-icon {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-left: 4px;
+}
+
+/* Short Player Styles */
+.short-panel-card.playing {
+    transform: translateY(-5px);
+    z-index: 10;
+}
+
+.short-panel-card.playing:hover {
+    transform: translateY(-5px) scale(1);
+}
+
+.short-player-container {
+    width: 100%;
+    height: 360px;
+    background: #000;
+    position: relative;
+}
+
+.short-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.short-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    gap: 6px;
+    z-index: 20;
+}
+
+.short-control-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.short-control-btn.close-btn {
+    background: rgba(255, 8, 68, 0.8);
+    color: white;
+}
+
+.short-control-btn.close-btn:hover {
+    background: #ff0844;
+    transform: scale(1.1);
+}
+
+.short-control-btn.youtube-btn {
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+}
+
+.short-control-btn.youtube-btn:hover {
+    background: #ff0000;
+    transform: scale(1.05);
+}

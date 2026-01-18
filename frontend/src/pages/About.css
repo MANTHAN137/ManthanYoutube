@@ -1,0 +1,266 @@
+.about-page {
+    padding-top: 80px;
+    min-height: 100vh;
+}
+
+.about-section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-content {
+    padding-right: 2rem;
+}
+
+.section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    color: #fff;
+    margin: 0 0 2rem 0;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #00d4ff, #9d4edd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-text p {
+    color: #b3b3b3;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.about-text strong {
+    color: #00d4ff;
+}
+
+.about-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #00d4ff, #9d4edd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Hologram Visual */
+.about-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hologram-effect {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+.hologram-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    border: 2px solid rgba(0, 212, 255, 0.3);
+    border-radius: 50%;
+    animation: hologramPulse 3s ease-in-out infinite;
+}
+
+.hologram-circle::before,
+.hologram-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.hologram-circle::before {
+    width: 200px;
+    height: 200px;
+}
+
+.hologram-circle::after {
+    width: 280px;
+    height: 280px;
+}
+
+.hologram-avatar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(157, 78, 221, 0.3));
+    border-radius: 50%;
+    box-shadow: 0 0 60px rgba(0, 212, 255, 0.5), inset 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+@keyframes hologramPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 60px rgba(0, 212, 255, 0.5);
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+/* Contact Section */
+.contact-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.3));
+}
+
+.contact-section .container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 212, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.contact-icon-glow {
+    color: #00d4ff;
+    margin-bottom: 1.5rem;
+}
+
+.contact-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0 0 0.5rem 0;
+}
+
+.contact-detail {
+    color: #888;
+    margin: 0 0 1.5rem 0;
+}
+
+.contact-btn-glow {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    color: #000;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.contact-btn-glow:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+}
+
+.contact-btn-glow.btn-purple {
+    background: linear-gradient(135deg, #9d4edd, #7b2cbf);
+}
+
+.contact-btn-glow.btn-purple:hover {
+    box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .about-content {
+        padding-right: 0;
+        text-align: center;
+    }
+
+    .about-stats {
+        justify-content: center;
+    }
+
+    .about-visual {
+        order: -1;
+    }
+
+    .hologram-effect {
+        width: 200px;
+        height: 200px;
+    }
+
+    .hologram-circle {
+        width: 180px;
+        height: 180px;
+    }
+
+    .hologram-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+}

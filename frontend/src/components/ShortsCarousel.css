@@ -1,0 +1,113 @@
+.shorts-panel-section {
+    padding: 3rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.shorts-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.shorts-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.shorts-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.shorts-logo span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.view-all-link {
+    color: #00d4ff;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.view-all-link:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #00d4ff;
+}
+
+.shorts-panel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shorts-scroll-wrapper {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 1rem 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.shorts-scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.scroll-btn:hover {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+.scroll-left {
+    margin-right: 0.5rem;
+}
+
+.scroll-right {
+    margin-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .shorts-panel-header {
+        padding: 0 0.5rem;
+    }
+
+    .shorts-logo span {
+        font-size: 1.4rem;
+    }
+
+    .scroll-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+    }
+}
