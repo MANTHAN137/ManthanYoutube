@@ -3,19 +3,20 @@
 
 import { VIDEOS, SHORTS, CHANNEL_INFO } from '../config/videos';
 
-const API_KEY = 'AIzaSyDJwa8_gqYvqw7hRsw5Kwe9dT83FTwMnE8';
-const CHANNEL_HANDLE = '3Manhattan888';
+// Environment variables (set in .env file or Vercel dashboard)
+const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || '';
+const CHANNEL_HANDLE = import.meta.env.VITE_YOUTUBE_CHANNEL_HANDLE || '3Manthan888';
 const CACHE_KEY = 'manthan_youtube_cache';
 const CACHE_DURATION = 300000; // 5 minutes
 
-// Backend API URL
-const BACKEND_URL = 'http://localhost:3001/api';
+// Backend API URL - update this in Vercel environment variables for production
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001/api';
 
 // Data source options:
 // - 'backend': Use Node.js backend server (fetches live data from YouTube)
 // - 'config': Use config file (reliable, manually updated view counts)
 // - 'direct': Direct YouTube API calls from browser (may have CORS issues)
-const DATA_SOURCE = 'backend'; // AUTO-FETCH: Shows new videos as soon as you upload!
+const DATA_SOURCE = import.meta.env.VITE_DATA_SOURCE || 'backend'; // AUTO-FETCH: Shows new videos as soon as you upload!
 
 /**
  * Get cached data from localStorage
@@ -348,7 +349,7 @@ const parseDurationToSeconds = (duration) => {
  */
 export const fetchChannelStats = async () => {
     // Use config for instant loading
-    if (USE_CONFIG_FILE) {
+    if (DATA_SOURCE === 'config') {
         return {
             subscriberCount: CHANNEL_INFO.subscriberCount,
             viewCount: CHANNEL_INFO.totalViews,

@@ -3,7 +3,7 @@ import { useYouTube } from '../context/YouTubeContext';
 import VideoCard from '../components/VideoCard';
 import ShortsCarousel from '../components/ShortsCarousel';
 import LoadingSkeleton from '../components/LoadingSkeleton';
-import VideoMontage from '../components/VideoMontage';
+import ImageMontage from '../components/ImageMontage';
 import './Home.css';
 
 const Home = () => {
@@ -17,7 +17,7 @@ const Home = () => {
             {/* Hero Section */}
             <section id="home" className="hero-section">
                 <div className="hero-background">
-                    <VideoMontage />
+                    <ImageMontage />
                     <div className="montage-overlay"></div>
                     <div className="infinity-stones">
                         <div className="stone stone-power"></div>

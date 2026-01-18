@@ -1,3 +1,6 @@
+// Load environment variables
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const https = require('https');
@@ -7,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 // YouTube API configuration
 const API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyDJwa8_gqYvqw7hRsw5Kwe9dT83FTwMnE8';
-const CHANNEL_HANDLE = process.env.CHANNEL_HANDLE || '3Manhattan888';
+const CHANNEL_HANDLE = process.env.CHANNEL_HANDLE || '3Manthan888';
 
 // Enable CORS for all origins in production
 app.use(cors());
@@ -211,6 +214,20 @@ app.get('/api/stats', async (req, res) => {
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Clear cache endpoint - call this when you upload a new video!
+app.get('/api/clear-cache', (req, res) => {
+    cache.videos = null;
+    cache.shorts = null;
+    cache.stats = null;
+    cache.lastFetch = null;
+    console.log('🗑️ Cache cleared!');
+    res.json({
+        success: true,
+        message: 'Cache cleared! Next request will fetch fresh data from YouTube.',
+        timestamp: new Date().toISOString()
+    });
 });
 
 // Start server
