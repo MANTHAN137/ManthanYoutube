@@ -5,7 +5,7 @@ import { VIDEOS, SHORTS, CHANNEL_INFO } from '../config/videos';
 
 // Environment variables (set in .env file or Vercel dashboard)
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY || '';
-const CHANNEL_HANDLE = import.meta.env.VITE_YOUTUBE_CHANNEL_HANDLE || '3Manthan888';
+const CHANNEL_HANDLE = import.meta.env.VITE_YOUTUBE_CHANNEL_HANDLE || '@3Manthan888';
 const CACHE_KEY = 'manthan_youtube_cache';
 const CACHE_DURATION = 300000; // 5 minutes
 

@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 // YouTube API configuration
 const API_KEY = process.env.YOUTUBE_API_KEY || 'AIzaSyDJwa8_gqYvqw7hRsw5Kwe9dT83FTwMnE8';
-const CHANNEL_HANDLE = process.env.CHANNEL_HANDLE || '3Manthan888';
+const CHANNEL_HANDLE = process.env.CHANNEL_HANDLE || '@3Manthan888';
 
 // Enable CORS for all origins in production
 app.use(cors());
@@ -54,12 +54,50 @@ function fetchFromYouTube(url) {
 
 // Get channel ID from handle
 async function getChannelId() {
-    const url = `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&forHandle=${CHANNEL_HANDLE}&part=id`;
-    const data = await fetchFromYouTube(url);
-    if (data.items && data.items.length > 0) {
-        return data.items[0].id;
+    // Try forHandle first (with and without @)
+    const handles = [CHANNEL_HANDLE, CHANNEL_HANDLE.replace('@', ''), `@${CHANNEL_HANDLE.replace('@', '')}`];
+
+    for (const handle of handles) {
+        try {
+            const url = `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&forHandle=${encodeURIComponent(handle)}&part=id`;
+            console.log(`Trying handle: ${handle}`);
+            const data = await fetchFromYouTube(url);
+            if (data.items && data.items.length > 0) {
+                console.log(`Found channel ID: ${data.items[0].id}`);
+                return data.items[0].id;
+            }
+        } catch (e) {
+            console.log(`Handle ${handle} failed:`, e.message);
+        }
     }
-    throw new Error('Channel not found');
+
+    // Fallback: Try forUsername (legacy)
+    try {
+        const url = `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&forUsername=${CHANNEL_HANDLE.replace('@', '')}&part=id`;
+        console.log(`Trying username: ${CHANNEL_HANDLE.replace('@', '')}`);
+        const data = await fetchFromYouTube(url);
+        if (data.items && data.items.length > 0) {
+            return data.items[0].id;
+        }
+    } catch (e) {
+        console.log('Username lookup failed:', e.message);
+    }
+
+    // Fallback: Search for channel
+    try {
+        const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&q=${encodeURIComponent(CHANNEL_HANDLE.replace('@', ''))}&type=channel&part=snippet&maxResults=1`;
+        console.log(`Searching for channel: ${CHANNEL_HANDLE}`);
+        const data = await fetchFromYouTube(searchUrl);
+        if (data.items && data.items.length > 0) {
+            const channelId = data.items[0].id.channelId;
+            console.log(`Found via search: ${channelId}`);
+            return channelId;
+        }
+    } catch (e) {
+        console.log('Search failed:', e.message);
+    }
+
+    throw new Error('Channel not found - tried all methods');
 }
 
 // Parse ISO 8601 duration to seconds
