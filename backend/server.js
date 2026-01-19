@@ -203,13 +203,20 @@ async function fetchAllVideos(channelId) {
 // API endpoint: Get all videos and shorts
 app.get('/api/videos', async (req, res) => {
     try {
-        // Check cache
-        if (cache.videos && cache.lastFetch && (Date.now() - cache.lastFetch < CACHE_DURATION)) {
+        const forceRefresh = req.query.refresh === 'true';
+
+        // Check cache (skip if forceRefresh is true)
+        if (!forceRefresh && cache.videos && cache.lastFetch && (Date.now() - cache.lastFetch < CACHE_DURATION)) {
             console.log('Returning cached videos');
             return res.json({ videos: cache.videos, shorts: cache.shorts });
         }
 
-        console.log('Fetching fresh videos from YouTube API...');
+        if (forceRefresh) {
+            console.log('🔄 Force refresh requested: Bypassing cache...');
+        } else {
+            console.log('Fetching fresh videos from YouTube API...');
+        }
+
         const channelId = await getChannelId();
         const { videos, shorts } = await fetchAllVideos(channelId);
 

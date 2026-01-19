@@ -59,6 +59,26 @@ export const YouTubeProvider = ({ children }) => {
         return videos.filter(v => v.category === category);
     };
 
+    // Refresh videos (bypass cache)
+    const refreshVideos = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const videoData = await fetchAllVideos(true);
+            setVideos(videoData.videos);
+            setShorts(videoData.shorts);
+
+            // Also refresh stats
+            const stats = await fetchChannelStats();
+            setChannelStats(stats);
+        } catch (err) {
+            console.error('Failed to refresh YouTube data:', err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const value = {
         videos,
         shorts,
@@ -67,7 +87,8 @@ export const YouTubeProvider = ({ children }) => {
         error,
         getLatestVideos,
         getLatestShorts,
-        getVideosByCategory
+        getVideosByCategory,
+        refreshVideos
     };
 
     return (

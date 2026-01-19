@@ -7,7 +7,7 @@ import ImageMontage from '../components/ImageMontage';
 import './Home.css';
 
 const Home = () => {
-    const { getLatestVideos, getLatestShorts, loading } = useYouTube();
+    const { getLatestVideos, getLatestShorts, loading, refreshVideos } = useYouTube();
 
     const latestVideos = getLatestVideos(10);
     const latestShorts = getLatestShorts(10);
@@ -66,6 +66,25 @@ const Home = () => {
                 <div className="section-header">
                     <h2 className="section-title">LATEST <span className="gradient-text">VISUALS</span></h2>
                     <div className="title-underline"></div>
+
+                    <button
+                        onClick={refreshVideos}
+                        className="refresh-btn"
+                        style={{
+                            marginTop: '1rem',
+                            padding: '0.5rem 1rem',
+                            background: 'rgba(0, 240, 255, 0.1)',
+                            border: '1px solid #00f0ff',
+                            color: '#00f0ff',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            letterSpacing: '1px',
+                            transition: 'all 0.3s ease'
+                        }}
+                    >
+                        {loading ? '↻ REFRESHING...' : '↻ REFRESH CONTENT'}
+                    </button>
                 </div>
 
                 <div className="videos-grid">

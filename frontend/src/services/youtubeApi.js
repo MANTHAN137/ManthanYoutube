@@ -196,8 +196,16 @@ export const fetchAllVideos = async (forceRefresh = false) => {
     // Use backend API (recommended)
     if (DATA_SOURCE === 'backend') {
         try {
-            console.log('Fetching from backend API...');
-            const response = await fetch(`${BACKEND_URL}/videos`);
+            console.log('Fetching from backend API...', forceRefresh ? '(Force Refresh)' : '');
+
+            // Clear cache if forcing refresh
+            if (forceRefresh) {
+                clearCache();
+            }
+
+            const url = `${BACKEND_URL}/videos${forceRefresh ? '?refresh=true' : ''}`;
+            const response = await fetch(url);
+
             if (!response.ok) throw new Error('Backend API error');
             const data = await response.json();
             console.log(`Backend returned: ${data.videos.length} videos, ${data.shorts.length} shorts`);
