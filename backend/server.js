@@ -125,79 +125,114 @@ function formatDuration(duration) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// Fetch all videos from channel
-async function fetchAllVideos(channelId) {
-    let allVideos = [];
-    let nextPageToken = '';
-
-    do {
-        const searchUrl = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${channelId}&part=snippet&order=date&maxResults=50&type=video${nextPageToken ? '&pageToken=' + nextPageToken : ''}`;
-        const searchData = await fetchFromYouTube(searchUrl);
-
-        if (searchData.items) {
-            allVideos = [...allVideos, ...searchData.items];
-        }
-        nextPageToken = searchData.nextPageToken || '';
-    } while (nextPageToken);
-
-    if (allVideos.length === 0) {
-        return { videos: [], shorts: [] };
+// Get Uploads playlist ID from channel
+async function getUploadsPlaylistId(channelId) {
+    const url = `https://www.googleapis.com/youtube/v3/channels?key=${API_KEY}&id=${channelId}&part=contentDetails`;
+    const data = await fetchFromYouTube(url);
+    if (data.items && data.items.length > 0) {
+        return data.items[0].contentDetails.relatedPlaylists.uploads;
     }
+    throw new Error('Could not find uploads playlist');
+}
 
-    // Get video details (duration, view count)
-    const videoIds = allVideos.map(v => v.id.videoId).join(',');
-    const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&id=${videoIds}&part=contentDetails,statistics`;
-    const detailsData = await fetchFromYouTube(detailsUrl);
+// Fetch all videos from playlist
+async function fetchAllVideos(channelId) {
+    try {
+        const uploadsPlaylistId = await getUploadsPlaylistId(channelId);
+        console.log(`Found uploads playlist ID: ${uploadsPlaylistId}`);
 
-    const detailsMap = {};
-    if (detailsData.items) {
-        detailsData.items.forEach(item => {
-            detailsMap[item.id] = {
-                duration: item.contentDetails.duration,
-                viewCount: item.statistics.viewCount
+        let allVideos = [];
+        let nextPageToken = '';
+
+        // Fetch all playlist items
+        do {
+            const playlistUrl = `https://www.googleapis.com/youtube/v3/playlistItems?key=${API_KEY}&playlistId=${uploadsPlaylistId}&part=snippet,contentDetails&maxResults=50${nextPageToken ? '&pageToken=' + nextPageToken : ''}`;
+            const data = await fetchFromYouTube(playlistUrl);
+
+            if (data.items) {
+                allVideos = [...allVideos, ...data.items];
+            }
+            nextPageToken = data.nextPageToken || '';
+        } while (nextPageToken);
+
+        if (allVideos.length === 0) {
+            return { videos: [], shorts: [] };
+        }
+
+        // Get content details (duration) and statistics (view count)
+        const videoIds = allVideos.map(v => v.contentDetails.videoId).join(',');
+
+        // We need to fetch in chunks of 50 because videos endpoint has a limit
+        const chunks = [];
+        for (let i = 0; i < allVideos.length; i += 50) {
+            chunks.push(allVideos.slice(i, i + 50));
+        }
+
+        const detailsMap = {};
+
+        for (const chunk of chunks) {
+            const chunkIds = chunk.map(v => v.contentDetails.videoId).join(',');
+            const detailsUrl = `https://www.googleapis.com/youtube/v3/videos?key=${API_KEY}&id=${chunkIds}&part=contentDetails,statistics`;
+            const detailsData = await fetchFromYouTube(detailsUrl);
+
+            if (detailsData.items) {
+                detailsData.items.forEach(item => {
+                    detailsMap[item.id] = {
+                        duration: item.contentDetails.duration,
+                        viewCount: item.statistics.viewCount
+                    };
+                });
+            }
+        }
+
+        // Process videos
+        const processedVideos = allVideos.map(item => {
+            const videoId = item.contentDetails.videoId;
+            const details = detailsMap[videoId] || {};
+            const durationSeconds = parseDuration(details.duration);
+            const title = item.snippet.title.toLowerCase();
+
+            // Detect shorts
+            // Logic: #shorts in title OR duration < 60s
+            // Note: YouTube API doesn't explicitly flag shorts in the standard response, so this is the best heuristic.
+            const hasShortHashtag = title.includes('#shorts') || title.includes('#short');
+            // Vertical videos < 60s are usually shorts, but we can't detect aspect ratio here easily.
+            // We rely on duration and title.
+            const isShort = hasShortHashtag || (durationSeconds <= 60 && durationSeconds > 0);
+
+            let category = 'ai';
+            if (title.includes('nature') || title.includes('drone')) {
+                category = 'nature';
+            } else if (title.includes('space') || title.includes('sci-fi') || title.includes('supernova')) {
+                category = 'scifi';
+            }
+
+            return {
+                id: videoId,
+                title: item.snippet.title,
+                thumbnail: item.snippet.thumbnails.high?.url || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+                publishedAt: item.snippet.publishedAt, // or item.contentDetails.videoPublishedAt
+                duration: formatDuration(details.duration),
+                durationSeconds,
+                viewCount: parseInt(details.viewCount) || 0,
+                category,
+                isShort
             };
         });
+
+        // Sort by date (newest first)
+        processedVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+
+        // Separate videos and shorts
+        const videos = processedVideos.filter(v => !v.isShort);
+        const shorts = processedVideos.filter(v => v.isShort);
+
+        return { videos, shorts };
+
+    } catch (e) {
+        console.error('Error in fetchAllVideos:', e);
+        throw e;
     }
-
-    // Process videos
-    const processedVideos = allVideos.map(video => {
-        const details = detailsMap[video.id.videoId] || {};
-        const durationSeconds = parseDuration(details.duration);
-        const title = video.snippet.title.toLowerCase();
-
-        // Detect shorts by #shorts hashtag or duration <= 60s
-        const hasShortHashtag = title.includes('#shorts') || title.includes('#short');
-        const isShort = hasShortHashtag || (durationSeconds <= 60 && durationSeconds > 0);
-
-        // Categorize
-        let category = 'ai';
-        if (title.includes('nature') || title.includes('drone')) {
-            category = 'nature';
-        } else if (title.includes('space') || title.includes('sci-fi') || title.includes('supernova')) {
-            category = 'scifi';
-        }
-
-        return {
-            id: video.id.videoId,
-            title: video.snippet.title,
-            thumbnail: video.snippet.thumbnails.high?.url || `https://img.youtube.com/vi/${video.id.videoId}/hqdefault.jpg`,
-            publishedAt: video.snippet.publishedAt,
-            duration: formatDuration(details.duration),
-            durationSeconds,
-            viewCount: parseInt(details.viewCount) || 0,
-            category,
-            isShort
-        };
-    });
-
-    // Sort by date (newest first)
-    processedVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-
-    // Separate videos and shorts
-    const videos = processedVideos.filter(v => !v.isShort);
-    const shorts = processedVideos.filter(v => v.isShort);
-
-    return { videos, shorts };
 }
 
 // API endpoint: Get all videos and shorts
